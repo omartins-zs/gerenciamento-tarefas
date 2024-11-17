@@ -17,7 +17,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-     /**
+    /**
      * Processa o login.
      */
     public function login(Request $request)
@@ -38,5 +38,18 @@ class LoginController extends Controller
         return back()->withErrors([
             'email' => 'As credenciais estão incorretas.',
         ])->onlyInput('email');
+    }
+    
+    /**
+     * Processa o logout.
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
