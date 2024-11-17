@@ -57,8 +57,8 @@
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-400">
                     Não tem uma conta?
-                    <a href="#" class="text-gray-100 hover:underline">Registre-se</a>
-                    {{-- <a href="{{ route('register') }}" class="text-gray-100 hover:underline">Registre-se</a> --}}
+                    {{-- <a href="#" class="text-gray-100 hover:underline">Registre-se</a> --}}
+                    <a href="{{ route('register') }}" class="text-gray-100 hover:underline">Registre-se</a>
                 </p>
             </div>
         </div>
