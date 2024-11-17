@@ -16,4 +16,27 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
+
+     /**
+     * Processa o login.
+     */
+    public function login(Request $request)
+    {
+        // Validação dos dados do formulário
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        // Tenta autenticar o usuário
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('dashboard'); // Redireciona após login
+        }
+
+        // Retorna erro se as credenciais forem inválidas
+        return back()->withErrors([
+            'email' => 'As credenciais estão incorretas.',
+        ])->onlyInput('email');
+    }
 }
