@@ -72,9 +72,22 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:pendente,em andamento,concluída',
+        ]);
+
+        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
+        if (auth()->user()->cannot('update', $task)) {
+            abort(403);
+        }
+
+        $task->update($request->all());
+
+        return redirect()->route('tasks.index')->with('success', 'Tarefa atualizada com sucesso.');
     }
 
     /**
