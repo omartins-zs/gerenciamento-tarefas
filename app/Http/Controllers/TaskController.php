@@ -93,8 +93,15 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
+        if (auth()->user()->cannot('delete', $task)) {
+            abort(403);
+        }
+
+        $task->delete();
+
+        return redirect()->route('tasks.index')->with('success', 'Tarefa excluída com sucesso.');
     }
 }
