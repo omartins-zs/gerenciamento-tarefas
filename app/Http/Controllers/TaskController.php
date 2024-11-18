@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -11,7 +14,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user(); // Obter o usuário autenticado
+
+        // Usuário comum: mostra suas tarefas; Admin: mostra todas
+        $tasks = $user->role === 'admin'
+            ? Task::all()
+            : $user->tasks; // Relacionamento já definido no model User
+
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
