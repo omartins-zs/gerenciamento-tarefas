@@ -59,9 +59,14 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        //
+        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
+        if (auth()->user()->cannot('update', $task)) {
+            abort(403);
+        }
+
+        return view('tasks.edit', compact('task'));
     }
 
     /**
