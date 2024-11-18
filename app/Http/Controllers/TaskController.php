@@ -37,7 +37,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:pendente,em andamento,concluída',
+        ]);
+
+        auth()->user()->tasks()->create($request->all());
+
+        return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso.');
     }
 
     /**
