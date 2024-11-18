@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -14,22 +14,19 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        Log::info('Acessando o método index.');
         $user = Auth::user();
 
-        // Base da consulta
         $query = $user->role === 'admin' ? Task::query() : $user->tasks();
 
-        // Aplicar filtros
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Aplicar ordenação
-        $sortField = $request->get('sort', 'created_at'); // Padrão: ordenar por data de criação
-        $sortOrder = $request->get('order', 'desc'); // Padrão: ordem decrescente
+        $sortField = $request->get('sort', 'created_at');
+        $sortOrder = $request->get('order', 'desc');
         $query->orderBy($sortField, $sortOrder);
 
-        // Paginação
         $tasks = $query->paginate(10)->withQueryString();
 
         return view('tasks.index', compact('tasks'));
@@ -40,6 +37,7 @@ class TaskController extends Controller
      */
     public function create()
     {
+        Log::info('Acessando o método create.');
         return view('tasks.create');
     }
 
@@ -48,13 +46,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('Acessando o método store.');
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|min:5',
             'description' => 'nullable|string',
             'status' => 'required|in:pendente,em andamento,concluída',
         ]);
 
-        auth()->user()->tasks()->create($request->all());
+        Auth::user()->tasks()->create($request->all());
 
         return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso.');
     }
@@ -62,9 +61,10 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        Log::info('Acessando o método show para a tarefa ID: ' . $task->id);
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -72,9 +72,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
-        if (auth()->user()->cannot('update', $task)) {
-            abort(403);
+        Log::info('Acessando o método edit para a tarefa ID: ' . $task->id);
+
+        if (Auth::user()->cannot('update', $task)) {
+            Log::warning('Usuário não autorizado para editar a tarefa ID: ' . $task->id);
+            abort(403, 'Você não tem permissão para editar esta tarefa.');
         }
 
         return view('tasks.edit', compact('task'));
@@ -85,15 +87,17 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        Log::info('Acessando o método update para a tarefa ID: ' . $task->id);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:pendente,em andamento,concluída',
         ]);
 
-        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
-        if (auth()->user()->cannot('update', $task)) {
-            abort(403);
+        if (Auth::user()->cannot('update', $task)) {
+            Log::warning('Usuário não autorizado para atualizar a tarefa ID: ' . $task->id);
+            abort(403, 'Você não tem permissão para atualizar esta tarefa.');
         }
 
         $task->update($request->all());
@@ -106,9 +110,11 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        // Garantir que o usuário autenticado é o dono da tarefa ou é admin
-        if (auth()->user()->cannot('delete', $task)) {
-            abort(403);
+        Log::info('Acessando o método destroy para a tarefa ID: ' . $task->id);
+
+        if (Auth::user()->cannot('delete', $task)) {
+            Log::warning('Usuário não autorizado para excluir a tarefa ID: ' . $task->id);
+            abort(403, 'Você não tem permissão para excluir esta tarefa.');
         }
 
         $task->delete();
