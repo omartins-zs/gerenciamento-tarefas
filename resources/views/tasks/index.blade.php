@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="container mx-auto p-4">
-        <h1 class="text-xl font-bold mb-4">Tarefas</h1>
-
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-xl font-bold">Tarefas</h1>
+            <a href="{{ route('tasks.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nova Tarefa</a>
+        </div>
         <!-- Filtros -->
         <form method="GET" class="mb-4 flex items-center space-x-4">
             <div>
