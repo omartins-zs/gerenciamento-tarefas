@@ -12,14 +12,25 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user(); // Obter o usuário autenticado
+        $user = Auth::user();
 
-        // Usuário comum: mostra suas tarefas; Admin: mostra todas
-        $tasks = $user->role === 'admin'
-            ? Task::all()
-            : $user->tasks; // Relacionamento já definido no model User
+        // Base da consulta
+        $query = $user->role === 'admin' ? Task::query() : $user->tasks();
+
+        // Aplicar filtros
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Aplicar ordenação
+        $sortField = $request->get('sort', 'created_at'); // Padrão: ordenar por data de criação
+        $sortOrder = $request->get('order', 'desc'); // Padrão: ordem decrescente
+        $query->orderBy($sortField, $sortOrder);
+
+        // Paginação
+        $tasks = $query->paginate(10)->withQueryString();
 
         return view('tasks.index', compact('tasks'));
     }
