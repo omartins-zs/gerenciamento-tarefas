@@ -20,7 +20,21 @@
         @endif
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
+        @if (session('success'))
+            <div class="bg-green-500 text-white px-4 py-2 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if ($errors->any())
+            <div class="bg-red-500 text-white px-4 py-2 rounded mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @yield('content')
 
     </body>
