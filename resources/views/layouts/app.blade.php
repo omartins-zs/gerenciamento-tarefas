@@ -19,7 +19,8 @@
             </style>
         @endif
     </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
+    <body class="font-sans antialiased">
+        @include('layouts.navbar')
         @if (session('success'))
             <div class="bg-green-500 text-white px-4 py-2 rounded mb-4">
                 {{ session('success') }}
