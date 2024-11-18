@@ -9,6 +9,11 @@
         <div class="mb-4">
             <label class="block text-gray-700">Título</label>
             <input type="text" name="title" class="border border-gray-300 p-2 w-full rounded" required>
+            @error('title')
+                <div class="text-red-500">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="mb-4">
