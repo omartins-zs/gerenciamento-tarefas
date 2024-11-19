@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
@@ -31,7 +32,14 @@ class LoginController extends Controller
         // Tenta autenticar o usuário
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard'); // Redireciona após login
+
+            // Verifica o role do usuário e redireciona para o destino apropriado
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->route('dashboard'); // Redireciona para o Dashboard do Admin
+            } else {
+                return redirect()->route('tasks.index'); // Redireciona para a página de tarefas do Usuário
+            }
         }
 
         // Retorna erro se as credenciais forem inválidas
@@ -47,9 +55,16 @@ class LoginController extends Controller
     {
         Auth::logout();
 
+        // Invalida e regenera o token da sessão
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Verifica se a rota de login existe
+        if (Route::has('login')) {
+            return redirect()->route('login')->with('message', 'Você foi deslogado com sucesso!');
+        }
+
+        // Caso contrário, redireciona para a página inicial
+        return redirect('/')->with('message', 'Você foi deslogado com sucesso!');
     }
 }
