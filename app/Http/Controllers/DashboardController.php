@@ -40,4 +40,26 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('tasks', 'users', 'totalTasks', 'totalUsers'));
     }
+    /**
+     * Atualiza o nível de acesso (role) de um usuário.
+     */
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:user,admin', // Permitir apenas 'user' ou 'admin'
+        ]);
+
+        $currentUser = Auth::user();
+
+        // Garantir que apenas o admin pode alterar o nível de acesso
+        if ($currentUser->role !== 'admin') {
+            return back()->withErrors(['error' => 'Você não tem permissão para alterar o nível de acesso.']);
+        }
+
+        // Atualizar o nível de acesso
+        $user->role = $request->role;
+        $user->save();
+
+        return back()->with('success', 'Nível de acesso do usuário atualizado com sucesso.');
+    }
 }
