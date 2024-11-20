@@ -58,7 +58,8 @@ php artisan serve
 
 1. Acesse o sistema em `http://localhost:8000`.
 2. Registre-se como usuário ou faça login como administrador:
-   - Admin: **admin@example.com / senha**
+   - **Admin**: **admin@example.com** / senha: **password**
+   - **Usuário**: **user@example.com** / senha: **password**
 
 ## Documentação de Rotas
 | Método | URL                                | Ação                                | Middleware         |
