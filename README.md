@@ -11,7 +11,8 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - [PHP 8.2](https://www.php.net/)
 - [MySQL 8.x](https://www.mysql.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- 
+
+  
 ---
 
 ## Pré-requisitos
@@ -19,6 +20,7 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - PHP >= 8.1
 - [Composer](https://getcomposer.org/)
 - [Node.js](https://nodejs.org/) >= 16.x
+- [Herd](https://herd.laravel.com/windows)
 
 ---
 
@@ -83,8 +85,7 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 
 ## Documentação de Banco de Dados
 
-## Estrutura de Banco de Dados
-### Tabelas Principais
+####  Estrutura de Banco de Dados
 1. **users**:
    - `id`: Chave primária.
    - `name`: Nome do usuário.
