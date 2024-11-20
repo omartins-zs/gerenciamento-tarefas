@@ -6,9 +6,12 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -74,10 +77,8 @@ class TaskController extends Controller
     {
         Log::info('Acessando o método edit para a tarefa ID: ' . $task->id);
 
-        if (Auth::user()->cannot('update', $task)) {
-            Log::warning('Usuário não autorizado para editar a tarefa ID: ' . $task->id);
-            abort(403, 'Você não tem permissão para editar esta tarefa.');
-        }
+        // Autoriza o usuário com base na Policy (essa é a forma correta)
+        $this->authorize('update', $task);  // Autoriza com a Policy 'update'
 
         return view('tasks.edit', compact('task'));
     }
@@ -95,10 +96,8 @@ class TaskController extends Controller
             'status' => 'required|in:pendente,em andamento,concluída',
         ]);
 
-        if (Auth::user()->cannot('update', $task)) {
-            Log::warning('Usuário não autorizado para atualizar a tarefa ID: ' . $task->id);
-            abort(403, 'Você não tem permissão para atualizar esta tarefa.');
-        }
+        // Autoriza o usuário com base na Policy 'update'
+        $this->authorize('update', $task);  // Autoriza com a Policy 'update'
 
         $task->update($request->all());
 
@@ -112,11 +111,14 @@ class TaskController extends Controller
     {
         Log::info('Acessando o método destroy para a tarefa ID: ' . $task->id);
 
-        if (Auth::user()->cannot('delete', $task)) {
+        // Verifica se o usuário é admin ou se a tarefa pertence ao usuário
+        if (Auth::user()->role !== 'admin' && Auth::user()->id !== $task->user_id) {
+            // Caso não seja admin e a tarefa não pertença ao usuário, retorna erro 403
             Log::warning('Usuário não autorizado para excluir a tarefa ID: ' . $task->id);
             abort(403, 'Você não tem permissão para excluir esta tarefa.');
         }
 
+        // Se passou pela verificação, pode excluir a tarefa
         $task->delete();
 
         return redirect()->route('tasks.index')->with('success', 'Tarefa excluída com sucesso.');
