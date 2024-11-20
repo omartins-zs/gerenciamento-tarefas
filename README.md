@@ -20,3 +20,36 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - Node.js >= 16.x
 
 ---
+## Instalação
+
+1. Clone o repositório:
+  ```bash
+   git clone https://github.com/seu-repo.git
+   cd seu-projeto
+```
+2. Instale as dependências:
+
+  ```bash
+composer install
+npm install
+npm run dev
+```
+
+3. Configure o .env:
+
+  ```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. Configure o banco de dados e execute as migrations:
+
+  ```bash
+php artisan migrate
+```
+
+5. Inicie o servidor:
+
+  ```bash
+php artisan serve
+```
