@@ -12,3 +12,11 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - Tailwind CSS
 
 ---
+
+## Pré-requisitos
+
+- PHP >= 8.1
+- Composer
+- Node.js >= 16.x
+
+---
