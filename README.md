@@ -1,3 +1,4 @@
+
 # Gerenciador de Tarefas
 
 Um sistema simples para gerenciar tarefas, com controle de acesso para usuários e administradores.
@@ -20,39 +21,43 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - Node.js >= 16.x
 
 ---
+
 ## Instalação
 
 1. Clone o repositório:
-  ```bash
+   ```bash
    git clone https://github.com/seu-repo.git
    cd seu-projeto
-```
+   ```
+
 2. Instale as dependências:
 
-  ```bash
-composer install
-npm install
-npm run dev
-```
+   ```bash
+   composer install
+   npm install
+   npm run dev
+   ```
 
-3. Configure o .env:
+3. Configure o `.env`:
 
-  ```bash
-cp .env.example .env
-php artisan key:generate
-```
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
 4. Configure o banco de dados e execute as migrations:
 
-  ```bash
-php artisan migrate
-```
+   ```bash
+   php artisan migrate
+   ```
 
 5. Inicie o servidor:
 
-  ```bash
-php artisan serve
-```
+   ```bash
+   php artisan serve
+   ```
+
+---
 
 ## Como Usar
 
@@ -61,7 +66,23 @@ php artisan serve
    - **Admin**: **admin@example.com** / senha: **password**
    - **Usuário**: **user@example.com** / senha: **password**
 
+---
+
+## Funcionalidades
+
+- Gerenciamento de tarefas
+- Controle de acesso para diferentes tipos de usuários (Admin e Usuário)
+- Testes automatizados com PHPUnit
+- Uso de **factories** e **seeders** para população do banco de dados
+- **Policies**: Autorização baseada em políticas para diferentes operações no sistema.
+- **Filtros**: Filtros para acessar e processar informações específicas.
+- **Ordenação**: Permite ordenar listas de tarefas conforme critérios definidos.
+- **Validações**: Validação de dados no momento da criação e atualização de tarefas.
+
+---
+
 ## Documentação de Rotas
+
 | Método | URL                                | Ação                                | Middleware         |
 |--------|------------------------------------|-------------------------------------|--------------------|
 | GET    | /tasks                             | Lista as tarefas                    | auth               |
@@ -78,3 +99,53 @@ php artisan serve
 | POST   | /logout                            | Realiza logout                      | auth               |
 | GET    | /register                          | Exibe formulário de registro        | guest              |
 | POST   | /register                          | Realiza o registro de um novo usuário | guest            |
+
+---
+
+## Testes Automatizados
+
+Este projeto utiliza o **PHPUnit** para os testes automatizados. Para rodar todos os testes, utilize o seguinte comando:
+
+```bash
+php artisan test
+```
+
+### Rodar Testes Específicos
+
+Para rodar um teste específico de um arquivo ou classe de teste, você pode usar a opção `--filter`:
+
+```bash
+php artisan test --filter NomeDoTeste
+```
+
+---
+
+## Executando Seeders
+
+Para popular o banco de dados com dados iniciais ou de teste, execute o seguinte comando:
+
+```bash
+php artisan db:seed
+```
+
+### Rodar Seeder Específico
+
+Caso queira rodar um seeder específico (por exemplo, o seeder de `Tasks`), utilize o comando:
+
+```bash
+php artisan db:seed --class=NomeDoSeeder
+```
+
+---
+
+## MVC e Padrão Arquitetural
+
+O projeto segue o padrão MVC (Model-View-Controller):
+
+- **Model**: Lida com o acesso aos dados e interações com a camada de persistência. Representa as entidades `Task` e `User`.
+- **View**: Contém a interface do usuário, as views de listagem de tarefas, detalhes, formulário de criação e edição.
+- **Controller**: Define as ações possíveis e métodos para manipular as operações relacionadas às tarefas.
+
+---
+
+Caso tenha qualquer dúvida ou necessidade adicional, sinta-se à vontade para perguntar!
