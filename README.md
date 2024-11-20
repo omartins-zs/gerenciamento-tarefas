@@ -53,3 +53,9 @@ php artisan migrate
   ```bash
 php artisan serve
 ```
+
+## Como Usar
+
+1. Acesse o sistema em `http://localhost:8000`.
+2. Registre-se como usuário ou faça login como administrador:
+   - Admin: **admin@example.com / senha**
