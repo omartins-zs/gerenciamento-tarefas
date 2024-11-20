@@ -7,6 +7,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
+// Para o Vue
+// Route::get('/', function () {
+//     return view('layouts/app');
+// });
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,7 +29,6 @@ Route::post('logout', [LoginController::class, 'logout'])->middleware('auth')->n
 
 // Rotas autenticadas
 Route::middleware('auth')->group(function () {
-    // Dashboard
     Log::info('Middleware de autenticação ativado.');
 
     // Dashboard
