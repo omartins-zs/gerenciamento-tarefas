@@ -11,7 +11,7 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - [PHP 8.2](https://www.php.net/)
 - [MySQL 8.x](https://www.mysql.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
-
+- [Vue.js](https://vuejs.org/)
   
 ---
 
