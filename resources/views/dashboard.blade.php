@@ -20,10 +20,10 @@
             <div class="bg-white p-6 rounded shadow-md">
                 <h3 class="text-lg font-semibold">Informações Gerais</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-                    <div class="bg-blue-50 p-4 rounded text-center shadow">
+                    <a href="{{ route('tasks.index') }}" class="bg-blue-50 p-4 rounded text-center shadow hover:bg-blue-100">
                         <p class="text-blue-600 text-2xl font-bold">{{ $totalTasks }}</p>
                         <p class="text-gray-600">Total de Tarefas</p>
-                    </div>
+                    </a>
                     <div class="bg-blue-50 p-4 rounded text-center shadow">
                         <p class="text-green-600 text-2xl font-bold">{{ $tasks->total() }}</p>
                         <p class="text-gray-600">Tarefas do Admin</p>
