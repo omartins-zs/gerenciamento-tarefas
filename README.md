@@ -7,18 +7,18 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 
 ## Tecnologias
 
-- Laravel 11.x
-- PHP 8.2
-- MySQL 8.x
-- Tailwind CSS
-
+- [Laravel 11.x](https://laravel.com/)
+- [PHP 8.2](https://www.php.net/)
+- [MySQL 8.x](https://www.mysql.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- 
 ---
 
 ## Pré-requisitos
 
 - PHP >= 8.1
-- Composer
-- Node.js >= 16.x
+- [Composer](https://getcomposer.org/)
+- [Node.js](https://nodejs.org/) >= 16.x
 
 ---
 
@@ -80,6 +80,28 @@ Um sistema simples para gerenciar tarefas, com controle de acesso para usuários
 - **Validações**: Validação de dados no momento da criação e atualização de tarefas.
 
 ---
+
+## Documentação de Banco de Dados
+
+## Estrutura de Banco de Dados
+### Tabelas Principais
+1. **users**:
+   - `id`: Chave primária.
+   - `name`: Nome do usuário.
+   - `email`: E-mail do usuário.
+   - `role`: Papel do usuário (admin ou user).
+
+2. **tasks**:
+   - `id`: Chave primária.
+   - `user_id`: Chave estrangeira para `users`.
+   - `title`: Título da tarefa.
+   - `status`: Status da tarefa (pendente, em andamento, concluída).
+
+---
+
+  <section class="py-6 text-center">
+    <img src="/DocumentacaoEstruturaBD.png" alt="Documentação Estrutura BD" class="mx-auto">
+  </section>
 
 ## Documentação de Rotas
 
